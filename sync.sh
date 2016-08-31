@@ -58,4 +58,4 @@ if [ -z != $SCHIAVO_URL ]; then
 	curl --data-urlencode "message=**icebirb** Ripple data sync completed!" "$SCHIAVO_URL/bunk" 2>&1 > /dev/null
 fi
 
-printf "\n$BLUE==> Done!$NC"
+printf "\n$BLUE==> Done!$NC\n"
