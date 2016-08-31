@@ -22,19 +22,19 @@ NC='\033[0m'
 # Sync replays
 if [ $SYNC_REPLAYS = true ]; then
 	printf "$BLUE==> Syncing replays...$NC"
-	rsync -aP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
+	rsync -avP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync avatars
 if [ $SYNC_AVATARS = true ]; then
 	printf "\n$BLUE==> Syncing avatars...$NC"
-	rsync -aP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
+	rsync -avP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync screenshots
 if [ $SYNC_SCREENSHOTS = true ]; then
 	printf "\n$BLUE==> Syncing screenshots...$NC"
-	rsync -aP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
+	rsync -avP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Dump and sync database
@@ -43,7 +43,7 @@ if [ $SYNC_DATABASE = true ]; then
 	mysqldump -u "$DB_USERNAME" "-p$DB_PASSWORD" "$DB_NAME" > "db.sql"
 
 	printf "$BLUE==> Syncing database...$NC"
-	rsync -azP db.sql "$RSYNC_REMOTE"
+	rsync -azvP db.sql "$RSYNC_REMOTE"
 
 	#printf "\n$BLUE==> Removing temp database...$NC"
 	#rm -rf db.sql

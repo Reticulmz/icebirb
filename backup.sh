@@ -84,7 +84,7 @@ fi
 # Send backup to remote server
 if [ -z != $RSYNC_REMOTE ]; then
 	printf "$BLUE==> Sending backup to backup server...$NC"
-	rsync -aRP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE/full_backups/"
+	rsync -aRvP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE/full_backups/"
 	rsync -a latest-backup.txt "$RSYNC_REMOTE"
 fi
 
