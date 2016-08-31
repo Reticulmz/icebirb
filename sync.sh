@@ -21,28 +21,28 @@ NC='\033[0m'
 
 # Sync replays
 if [ $SYNC_REPLAYS = true ]; then
-	printf "$BLUE==> Syncing replays...$NC"
+	printf "$BLUE==> Syncing replays...$NC\n"
 	rsync -avP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync avatars
 if [ $SYNC_AVATARS = true ]; then
-	printf "\n$BLUE==> Syncing avatars...$NC"
+	printf "\n$BLUE==> Syncing avatars...$NC\n"
 	rsync -avP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync screenshots
 if [ $SYNC_SCREENSHOTS = true ]; then
-	printf "\n$BLUE==> Syncing screenshots...$NC"
+	printf "\n$BLUE==> Syncing screenshots...$NC\n"
 	rsync -avP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Dump and sync database
 if [ $SYNC_DATABASE = true ]; then
-	printf "\n$BLUE==> Dumping database...$NC"
+	printf "\n$BLUE==> Dumping database...$NC\n"
 	mysqldump -u "$DB_USERNAME" "-p$DB_PASSWORD" "$DB_NAME" > "db.sql"
 
-	printf "$BLUE==> Syncing database...$NC"
+	printf "\n$BLUE==> Syncing database...$NC\n"
 	rsync -azvP db.sql "$RSYNC_REMOTE"
 
 	#printf "\n$BLUE==> Removing temp database...$NC"
@@ -50,7 +50,7 @@ if [ $SYNC_DATABASE = true ]; then
 fi
 
 # Update latest sync
-printf "Latest sync: $(date '+%F %H:%M:%S')" > latest-sync.txt
+echo "Latest sync: $(date '+%F %H:%M:%S')\n" > latest-sync.txt
 rsync -a latest-sync.txt "$RSYNC_REMOTE"
 
 # Schiavo message

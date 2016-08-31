@@ -31,59 +31,59 @@ NC='\033[0m'
 WHEN=$(date '+%F--%H-%M-%S')
 
 # First, let's create a directory, cd to it and empty it
-printf "$BLUE==> Creating temp directory...$NC"
+printf "$BLUE==> Creating temp directory...$NC\n"
 mkdir temp
 cd temp
 rm -rf *
 
 # Database backup
 if [ $SYNC_DATABASE = true ]; then
-	printf "$BLUE==> Dumping database...$NC"
+	printf "$BLUE==> Dumping database...$NC\n"
 	mkdir db
 	mysqldump -u "$DB_USERNAME" "-p$DB_PASSWORD" "$DB_NAME" > "db/db-$WHEN.sql"
 fi
 
 # Replays backup
 if [ $SYNC_REPLAYS = true ]; then
-	printf "$BLUE==> Copying replays...$NC"
+	printf "$BLUE==> Copying replays...$NC\n"
 	rsync -r "$REPLAYS_FOLDER" replays
 fi
 
 # Avatars backup
 if [ $SYNC_AVATARS = true ]; then
-	printf "$BLUE==> Copying avatars...$NC"
+	printf "$BLUE==> Copying avatars...$NC\n"
 	rsync -r "$AVATARS_FOLDER" avatars
 fi
 
 # Done, let's tar this
-printf "$BLUE==> Creating backup archive...$NC"
+printf "$BLUE==> Creating backup archive...$NC\n"
 tar -cf "backup-$WHEN.tar.gz" *
 
 # Update latest backup
-printf "Latest backup: $WHEN" > latest-backup.txt
+printf "Latest backup: $WHEN\n" > latest-backup.txt
 
 # Upload backup to backblaze
 if [ -z != $BACKBLAZE_BUCKET_NAME ]; then
 	b2 authorize_account "$BACKBLAZE_ACCOUNT_ID" "$BACKBLAZE_APPLICATION_KEY"
-	printf "$BLUE==> Uploading backup archive to Backblaze...$NC"
+	printf "\n$BLUE==> Uploading backup archive to Backblaze...$NC\n"
 	b2 upload_file "$BACKBLAZE_BUCKET_NAME" "backup-$WHEN.tar.gz" "backup-$WHEN.tar.gz"
 fi
 
 # Upload backup to S3
 if [ -z != $S3_BUCKET_NAME ]; then
-	printf "$BLUE==> Uploading backup archive to AWS S3...$NC"
+	printf "\n$BLUE==> Uploading backup archive to AWS S3...$NC\n"
 	aws s3 cp "backup-$WHEN.tar.gz" "$S3_BUCKET_NAME"
 fi
 
 # Copy backup to local folder
 if [ -z != $LOCAL_FOLDER ]; then
-	printf "$BLUE==> Copying backup to local folder...$NC"
+	printf "\n$BLUE==> Copying backup to local folder...$NC\n"
 	cp "backup-$WHEN.tar.gz" "$LOCAL_FOLDER/"
 fi
 
 # Send backup to remote server
 if [ -z != $RSYNC_REMOTE ]; then
-	printf "$BLUE==> Sending backup to backup server...$NC"
+	printf "\n$BLUE==> Sending backup to backup server...$NC\n"
 	rsync -aRvP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE/full_backups/"
 	rsync -a latest-backup.txt "$RSYNC_REMOTE"
 fi
@@ -98,6 +98,6 @@ fi
 cd ..
 
 # Delete temp folder
-printf "$BLUE==> Deleting temp files...$NC"
+printf "\n$BLUE==> Deleting temp files...$NC\n"
 rm -rf temp
-printf "$BLUE==> Backup complete!$NC"
+printf "$BLUE==> Backup complete!$NC\n"
