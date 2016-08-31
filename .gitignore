@@ -1,0 +1,5 @@
+config.ini
+latest-sync.txt
+latest-backup.txt
+db.sql
+temp/
