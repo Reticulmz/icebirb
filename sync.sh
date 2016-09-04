@@ -22,19 +22,19 @@ NC='\033[0m'
 # Sync replays
 if [ $SYNC_REPLAYS = true ]; then
 	printf "$BLUE==> Syncing replays...$NC\n"
-	rsync -avP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
+	rsync -azvP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync avatars
 if [ $SYNC_AVATARS = true ]; then
 	printf "\n$BLUE==> Syncing avatars...$NC\n"
-	rsync -avP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
+	rsync -azvP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync screenshots
 if [ $SYNC_SCREENSHOTS = true ]; then
 	printf "\n$BLUE==> Syncing screenshots...$NC\n"
-	rsync -avP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
+	rsync -azvP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Dump and sync database
