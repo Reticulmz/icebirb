@@ -57,6 +57,12 @@ if [ $SYNC_AVATARS = true ]; then
 	rsync -r "$AVATARS_FOLDER" avatars
 fi
 
+# Screenshots backup
+if [ $SYNC_SCREENSHOTS = true ]; then
+	printf "$BLUE==> Copying screenshots...$NC\n"
+	rsync -r "$SCREENSHOTS_FOLDER" screenshots
+fi
+
 # Profile backgrounds backup
 if [ $SYNC_PROFILE_BACKGROUNDS = true ]; then
 	printf "$BLUE==> Copying profile backgrounds...$NC\n"
