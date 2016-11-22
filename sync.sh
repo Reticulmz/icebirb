@@ -2,6 +2,7 @@
 SYNC_REPLAYS=$(awk -F "=" '/sync_replays/ {print $2}' config.ini)
 SYNC_AVATARS=$(awk -F "=" '/sync_avatars/ {print $2}' config.ini)
 SYNC_SCREENSHOTS=$(awk -F "=" '/sync_screenshots/ {print $2}' config.ini)
+SYNC_PROFILE_BACKGROUNDS=$(awk -F "=" '/sync_profile_backgrounds/ {print $2}' config.ini)
 SYNC_DATABASE=$(awk -F "=" '/sync_database/ {print $2}' config.ini)
 
 DB_USERNAME=$(awk -F "=" '/db_username/ {print $2}' config.ini)
@@ -11,6 +12,7 @@ DB_NAME=$(awk -F "=" '/db_name/ {print $2}' config.ini)
 REPLAYS_FOLDER=$(awk -F "=" '/replays_folder/ {print $2}' config.ini)
 AVATARS_FOLDER=$(awk -F "=" '/avatars_folder/ {print $2}' config.ini)
 SCREENSHOTS_FOLDER=$(awk -F "=" '/screenshots_folder/ {print $2}' config.ini)
+PROFILE_BACKGROUNDS_FOLDER=$(awk -F "=" '/profile_backgrounds_folder/ {print $2}' config.ini)
 
 RSYNC_REMOTE=$(awk -F "=" '/rsync_remote/ {print $2}' config.ini)
 
@@ -35,6 +37,12 @@ fi
 if [ $SYNC_SCREENSHOTS = true ]; then
 	printf "\n$BLUE==> Syncing screenshots...$NC\n"
 	rsync -azvP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
+fi
+
+# Sync profile backgrounds
+if [ $SYNC_PROFILE_BACKGROUNDS = true ]; then
+	printf "\n$BLUE==> Syncing profile backgrounds...$NC\n"
+	rsync -azvP "$PROFILE_BACKGROUNDS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Dump and sync database

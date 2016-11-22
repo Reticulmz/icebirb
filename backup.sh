@@ -2,6 +2,7 @@
 SYNC_REPLAYS=$(awk -F "=" '/sync_replays/ {print $2}' config.ini)
 SYNC_AVATARS=$(awk -F "=" '/sync_avatars/ {print $2}' config.ini)
 SYNC_SCREENSHOTS=$(awk -F "=" '/sync_screenshots/ {print $2}' config.ini)
+SYNC_PROFILE_BACKGROUNDS=$(awk -F "=" '/sync_profile_backgrounds/ {print $2}' config.ini)
 SYNC_DATABASE=$(awk -F "=" '/sync_database/ {print $2}' config.ini)
 
 DB_USERNAME=$(awk -F "=" '/db_username/ {print $2}' config.ini)
@@ -11,6 +12,7 @@ DB_NAME=$(awk -F "=" '/db_name/ {print $2}' config.ini)
 REPLAYS_FOLDER=$(awk -F "=" '/replays_folder/ {print $2}' config.ini)
 AVATARS_FOLDER=$(awk -F "=" '/avatars_folder/ {print $2}' config.ini)
 SCREENSHOTS_FOLDER=$(awk -F "=" '/screenshots_folder/ {print $2}' config.ini)
+PROFILE_BACKGROUNDS_FOLDER=$(awk -F "=" '/profile_backgrounds_folder/ {print $2}' config.ini)
 
 BACKBLAZE_BUCKET_NAME=$(awk -F "=" '/backblaze_bucket_name/ {print $2}' config.ini)
 BACKBLAZE_ACCOUNT_ID=$(awk -F "=" '/backblaze_account_id/ {print $2}' config.ini)
@@ -53,6 +55,12 @@ fi
 if [ $SYNC_AVATARS = true ]; then
 	printf "$BLUE==> Copying avatars...$NC\n"
 	rsync -r "$AVATARS_FOLDER" avatars
+fi
+
+# Profile backgrounds backup
+if [ $SYNC_PROFILE_BACKGROUNDS = true ]; then
+	printf "$BLUE==> Copying profile backgrounds...$NC\n"
+	rsync -r "$PROFILE_BACKGROUNDS_FOLDER" profbackgrounds
 fi
 
 # Done, let's tar this
