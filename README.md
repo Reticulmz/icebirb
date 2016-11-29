@@ -1,4 +1,8 @@
 ## Icebirb
+
+- Origin: https://git.zxq.co/ripple/icebirb
+- Mirror: https://github.com/osuripple/icebirb
+
 ### Sync & Backup Ripple replays, screenshots, avatars and database
 This simple set of bash scripts can sync Ripple replays, screenshots, avatars and database between different servers, so they're safe in case the main server explodes.
 - `sync.sh` syncs Ripple's data to another server. Only new or edited files get synced to the backup server.
