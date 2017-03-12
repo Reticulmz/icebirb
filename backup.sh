@@ -23,6 +23,7 @@ S3_BUCKET_NAME=$(awk -F "=" '/s3_bucket_name/ {print $2}' config.ini)
 LOCAL_FOLDER=$(awk -F "=" '/local_folder/ {print $2}' config.ini)
 
 RSYNC_REMOTE=$(awk -F "=" '/rsync_remote/ {print $2}' config.ini)
+RSYNC_PORT=$(awk -F "=" '/rsync_port/ {print $2}' config.ini)
 
 SCHIAVO_URL=$(awk -F "=" '/schiavo_url/ {print $2}' config.ini)
 
@@ -98,8 +99,8 @@ fi
 # Send backup to remote server
 if [ -z != $RSYNC_REMOTE ]; then
 	printf "\n$BLUE==> Sending backup to backup server...$NC\n"
-	rsync -aRvP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE/full_backups/"
-	rsync -a latest-backup.txt "$RSYNC_REMOTE"
+	rsync -e "ssh -p $RSYNC_PORT" -aRvP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE/full_backups/"
+	rsync -e "ssh -p $RSYNC_PORT" -a latest-backup.txt "$RSYNC_REMOTE"
 fi
 
 

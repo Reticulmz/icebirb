@@ -15,6 +15,7 @@ SCREENSHOTS_FOLDER=$(awk -F "=" '/screenshots_folder/ {print $2}' config.ini)
 PROFILE_BACKGROUNDS_FOLDER=$(awk -F "=" '/profile_backgrounds_folder/ {print $2}' config.ini)
 
 RSYNC_REMOTE=$(awk -F "=" '/rsync_remote/ {print $2}' config.ini)
+RSYNC_PORT=$(awk -F "=" '/rsync_port/ {print $2}' config.ini)
 
 SCHIAVO_URL=$(awk -F "=" '/schiavo_url/ {print $2}' config.ini)
 
@@ -24,25 +25,25 @@ NC='\033[0m'
 # Sync replays
 if [ $SYNC_REPLAYS = true ]; then
 	printf "$BLUE==> Syncing replays...$NC\n"
-	rsync -azvP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
+	rsync -e "ssh -p $RSYNC_PORT" -azvP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync avatars
 if [ $SYNC_AVATARS = true ]; then
 	printf "\n$BLUE==> Syncing avatars...$NC\n"
-	rsync -azvP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
+	rsync -e "ssh -p $RSYNC_PORT" -azvP "$AVATARS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync screenshots
 if [ $SYNC_SCREENSHOTS = true ]; then
 	printf "\n$BLUE==> Syncing screenshots...$NC\n"
-	rsync -azvP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
+	rsync -e "ssh -p $RSYNC_PORT" -azvP "$SCREENSHOTS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Sync profile backgrounds
 if [ $SYNC_PROFILE_BACKGROUNDS = true ]; then
 	printf "\n$BLUE==> Syncing profile backgrounds...$NC\n"
-	rsync -azvP "$PROFILE_BACKGROUNDS_FOLDER" "$RSYNC_REMOTE"
+	rsync -e "ssh -p $RSYNC_PORT" -azvP "$PROFILE_BACKGROUNDS_FOLDER" "$RSYNC_REMOTE"
 fi
 
 # Dump and sync database
@@ -59,7 +60,7 @@ fi
 
 # Update latest sync
 echo "Latest sync: $(date '+%F %H:%M:%S')\n" > latest-sync.txt
-rsync -a latest-sync.txt "$RSYNC_REMOTE"
+rsync -e "ssh -p $RSYNC_PORT" -a latest-sync.txt "$RSYNC_REMOTE"
 
 # Schiavo message
 if [ -z != $SCHIAVO_URL ]; then
