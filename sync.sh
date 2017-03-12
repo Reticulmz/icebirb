@@ -52,10 +52,10 @@ if [ $SYNC_DATABASE = true ]; then
 	mysqldump -u "$DB_USERNAME" "-p$DB_PASSWORD" "$DB_NAME" > "db.sql"
 
 	printf "\n$BLUE==> Syncing database...$NC\n"
-	rsync -azvP db.sql "$RSYNC_REMOTE"
+	rsync -e "ssh -p $RSYNC_PORT" -azvP db.sql "$RSYNC_REMOTE"
 
-	#printf "\n$BLUE==> Removing temp database...$NC"
-	#rm -rf db.sql
+	printf "\n$BLUE==> Removing temp database...$NC"
+	rm -rf db.sql
 fi
 
 # Update latest sync
