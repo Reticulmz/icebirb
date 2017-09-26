@@ -17,6 +17,8 @@ PROFILE_BACKGROUNDS_FOLDER=$(awk -F "=" '/profile_backgrounds_folder/ {print $2}
 RSYNC_REMOTE=$(awk -F "=" '/sync_rsync_remote/ {print $2}' config.ini)
 RSYNC_PORT=$(awk -F "=" '/sync_rsync_port/ {print $2}' config.ini)
 
+SYNC_MTIME=$(awk -F "=" '/sync_mtime/ {print $2}' config.ini)
+
 SCHIAVO_URL=$(awk -F "=" '/schiavo_url/ {print $2}' config.ini)
 
 BLUE='\033[0;36m'
@@ -25,7 +27,18 @@ NC='\033[0m'
 # Sync replays
 if [ $SYNC_REPLAYS = true ]; then
 	printf "$BLUE==> Syncing replays...$NC\n"
-	rsync -e "ssh -p $RSYNC_PORT" -azvP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
+	if [ $SYNC_MTIME < 0 ]; then
+		# Classic sync. Send all files that are not present on sync server.
+		# Use when all replays are saved in the sync storage (classic server)
+		printf "$BLUE(classic sync)$NC\n"
+		rsync -e "ssh -p $RSYNC_PORT" -azvP "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
+	else
+		# New-files-only sync. Send all files that have been modified in the last $SYNC_MTIME*24 hours
+		# Use if not all replays are saved in the sync storage (eg: C14, where files older than
+		# 7 days are automatically moved to the safe storage and removed from the rsync folder)
+		printf "$BLUE(new-files-only sync)$NC\n"
+		find "$REPLAYS_FOLDER" -mtime "$SYNC_MTIME" -print0 | rsync -e "ssh -p $RSYNC_PORT" -azvP0 "$REPLAYS_FOLDER" "$RSYNC_REMOTE"
+	fi
 fi
 
 # Sync avatars
