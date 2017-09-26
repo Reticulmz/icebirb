@@ -27,7 +27,7 @@ NC='\033[0m'
 # Sync replays
 if [ $SYNC_REPLAYS = true ]; then
 	printf "$BLUE==> Syncing replays...$NC\n"
-	if [ $SYNC_MTIME < 0 ]; then
+	if [ $SYNC_MTIME -lt 0 ]; then
 		# Classic sync. Send all files that are not present on sync server.
 		# Use when all replays are saved in the sync storage (classic server)
 		printf "$BLUE(classic sync)$NC\n"
