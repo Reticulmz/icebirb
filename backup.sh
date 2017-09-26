@@ -1,9 +1,9 @@
 # Load settings
-SYNC_REPLAYS=$(awk -F "=" '/sync_replays/ {print $2}' config.ini)
-SYNC_AVATARS=$(awk -F "=" '/sync_avatars/ {print $2}' config.ini)
-SYNC_SCREENSHOTS=$(awk -F "=" '/sync_screenshots/ {print $2}' config.ini)
-SYNC_PROFILE_BACKGROUNDS=$(awk -F "=" '/sync_profile_backgrounds/ {print $2}' config.ini)
-SYNC_DATABASE=$(awk -F "=" '/sync_database/ {print $2}' config.ini)
+SYNC_REPLAYS=$(awk -F "=" '/do_sync_replays/ {print $2}' config.ini)
+SYNC_AVATARS=$(awk -F "=" '/do_sync_avatars/ {print $2}' config.ini)
+SYNC_SCREENSHOTS=$(awk -F "=" '/do_sync_screenshots/ {print $2}' config.ini)
+SYNC_PROFILE_BACKGROUNDS=$(awk -F "=" '/do_sync_profile_backgrounds/ {print $2}' config.ini)
+SYNC_DATABASE=$(awk -F "=" '/do_sync_database/ {print $2}' config.ini)
 
 DB_USERNAME=$(awk -F "=" '/db_username/ {print $2}' config.ini)
 DB_PASSWORD=$(awk -F "=" '/db_password/ {print $2}' config.ini)
@@ -14,16 +14,16 @@ AVATARS_FOLDER=$(awk -F "=" '/avatars_folder/ {print $2}' config.ini)
 SCREENSHOTS_FOLDER=$(awk -F "=" '/screenshots_folder/ {print $2}' config.ini)
 PROFILE_BACKGROUNDS_FOLDER=$(awk -F "=" '/profile_backgrounds_folder/ {print $2}' config.ini)
 
-BACKBLAZE_BUCKET_NAME=$(awk -F "=" '/backblaze_bucket_name/ {print $2}' config.ini)
-BACKBLAZE_ACCOUNT_ID=$(awk -F "=" '/backblaze_account_id/ {print $2}' config.ini)
-BACKBLAZE_APPLICATION_KEY=$(awk -F "=" '/backblaze_application_key/ {print $2}' config.ini)
+BACKBLAZE_BUCKET_NAME=$(awk -F "=" '/backup_backblaze_bucket_name/ {print $2}' config.ini)
+BACKBLAZE_ACCOUNT_ID=$(awk -F "=" '/backup_backblaze_account_id/ {print $2}' config.ini)
+BACKBLAZE_APPLICATION_KEY=$(awk -F "=" '/backup_backblaze_application_key/ {print $2}' config.ini)
 
-S3_BUCKET_NAME=$(awk -F "=" '/s3_bucket_name/ {print $2}' config.ini)
+S3_BUCKET_NAME=$(awk -F "=" '/backup_s3_bucket_name/ {print $2}' config.ini)
 
-LOCAL_FOLDER=$(awk -F "=" '/local_folder/ {print $2}' config.ini)
+LOCAL_FOLDER=$(awk -F "=" '/backup_local_folder/ {print $2}' config.ini)
 
-RSYNC_REMOTE=$(awk -F "=" '/rsync_remote/ {print $2}' config.ini)
-RSYNC_PORT=$(awk -F "=" '/rsync_port/ {print $2}' config.ini)
+RSYNC_REMOTE=$(awk -F "=" '/backup_rsync_remote/ {print $2}' config.ini)
+RSYNC_PORT=$(awk -F "=" '/backup_rsync_port/ {print $2}' config.ini)
 
 SCHIAVO_URL=$(awk -F "=" '/schiavo_url/ {print $2}' config.ini)
 
