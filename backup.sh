@@ -99,7 +99,7 @@ fi
 # Send backup to remote server
 if [ -z != $RSYNC_REMOTE ]; then
 	printf "\n$BLUE==> Sending backup to backup server...$NC\n"
-	rsync -e "ssh -p $RSYNC_PORT" -aRvP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE/full_backups/"
+	rsync -e "ssh -p $RSYNC_PORT" -aRvP "backup-$WHEN.tar.gz" "$RSYNC_REMOTE"
 	rsync -e "ssh -p $RSYNC_PORT" -a latest-backup.txt "$RSYNC_REMOTE"
 fi
 
